@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import {BrowserRouter, Route, Routes, Navigate, useNavigate} from 'react-router-dom';
 import './../index.css';
 import Footer from './Footer';
 import Header from './Header';
@@ -9,6 +10,8 @@ import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
 import AddPlacePopup from './AddPlacePopup';
+import Login from './Login';
+import Register from './Register';
 
 function App() {
   const [isEditProfilePopupOpen, setEditProfilePopupOpen] = useState(false);
@@ -18,7 +21,7 @@ function App() {
   const [imageData, setImageData] = useState({ link: '', name: '' });
   const [currentUser, setCurrentUser] = useState({});
   const [cards, setCards] = useState([]);
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
 
   useEffect(() => {
@@ -118,7 +121,9 @@ function App() {
         <div className="page">
           <div className="wrap">
             <Header loggedIn={isLoggedIn} />
-            {/* <Routes>
+            <Routes>
+              <Route path="/signup" element={<Register />} />
+              <Route path="/signin" element={<Login />} />
               <Route path="/" element={<Main
                 onEditProfile={handleEditProfileClick}
                 onAddPlace={handleAddPlaceClick}
@@ -127,10 +132,8 @@ function App() {
                 onCardLike={handleCardLike}
                 onCardDelete={handleCardDelete}
                 cards={cards}
-              />} />
-              <Route path="/signup" element={<Register />} />
-              <Route path="/signin" element={<Login />} />
-            </Routes> */}
+              />} />              
+            </Routes>
             <Footer />
           </div>
           <EditProfilePopup

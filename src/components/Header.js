@@ -11,17 +11,17 @@ const Header = ({loggedIn}) => {
     <header className="header">
       <img src={headerLogo} alt="Логотип" className="header__logo" />
       {loggedIn ?
-        <p className="header__navbar">
-          <span className="header__email">email@mail.ru</span>
-          <span className="header__button">Выйти</span>
-        </p>  
+        <div className="header__navbar">
+          <p className="header__email">email@mail.ru</p>
+          <p className="header__button">Выйти</p>
+        </div>  
         :        
-        location.pathname === '/aa' ?
+        location.pathname === '/signup' ?
         // <span className="header__button">Войти</span>
-        <Link to="/" className="header__link">Войти</Link>
+        <Link to="/signin" className="header__link">Войти</Link>
         :
         //<span className="header__button">Регистрация</span>
-        <Link to="/" className="header__link">Регистрация</Link>
+        <Link to="/signup" className="header__link">Регистрация</Link>
       }         
     </header>
   );

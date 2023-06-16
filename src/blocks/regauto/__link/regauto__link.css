@@ -1,15 +1,15 @@
-.header__link {
+.regauto__link {
     text-decoration: none;
     font-style: normal;
     font-weight: 400;
-    font-size: 18px;
-    line-height: 22px;
+    font-size: 14px;
+    line-height: 17px;
+    text-align: center;
     color: #FFFFFF;
-    margin-top: 7px;
     transition: opacity 0.5s;
 }
 
-.header__link:hover {
-    opacity: .85;
+.regauto__link:hover {
+    opacity: .6;
     cursor: pointer;
 }

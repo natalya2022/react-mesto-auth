@@ -11,6 +11,17 @@
 @import url("./blocks/header/__button/header__button.css");
 @import url("./blocks/header/__link/header__link.css");
 
+@import url("./blocks/regauto/regauto.css");
+@import url("./blocks/regauto/__button/regauto__button.css");
+@import url("./blocks/regauto/__title/regauto__title.css");
+@import url("./blocks/regauto/__form/regauto__form.css");
+@import url("./blocks/regauto/__text/regauto__text.css");
+@import url("./blocks/regauto/__link/regauto__link.css");
+
+
+@import url("./blocks/input-box/input-box.css");
+
+
 @import url("./blocks/content/content.css");
 @import url("./blocks/profile/profile.css");
 @import url("./blocks/profile/__add/profile__add.css");
