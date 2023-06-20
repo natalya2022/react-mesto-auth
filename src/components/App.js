@@ -117,7 +117,7 @@ function App() {
       .catch(console.error);
   }
 
-  function handleUserReg(email, password) {      
+  function handleNewUserReg(email, password) {      
     auth.register(email, password).then((res) => {
       console.log(res);
       })
@@ -131,7 +131,7 @@ function App() {
           <div className="wrap">
             <Header loggedIn={isLoggedIn} />
             <Routes>
-              <Route path="/signup" element={<Register onAddUser={handleUserReg}/>} />
+              <Route path="/signup" element={<Register onAddUser={handleNewUserReg}/>} />
               {/* <Route path="/signin" element={<Login />} /> */}
               <Route path="/" element={ <ProtectedRoute isLoggedIn={isLoggedIn} element={ <Main
                 onEditProfile={handleEditProfileClick}
