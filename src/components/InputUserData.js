@@ -1,6 +1,8 @@
 import React from 'react';
 
-const InputUserData = () => {
+const InputUserData = ({ formValue, handleChange }) => {
+  console.log(formValue, handleChange);
+
   return (
     <>
       <input
@@ -10,8 +12,8 @@ const InputUserData = () => {
         id="form-login-email"
         name="email"
         required
-        //   value={namePlace || ''}
-        //   onChange={handleChangeNamePlace}
+        onChange={handleChange}
+        value={formValue.email || ''}
       />
       <input
         className="input-box"
@@ -22,8 +24,8 @@ const InputUserData = () => {
         minLength={3}
         maxLength={20}
         required
-        //   value={linkPlace || ''}
-        //   onChange={handleChangeLinkPlace}
+        onChange={handleChange}
+        value={formValue.password || ''}        
       />
     </>
   );

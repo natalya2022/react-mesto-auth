@@ -12,6 +12,8 @@ import EditAvatarPopup from './EditAvatarPopup';
 import AddPlacePopup from './AddPlacePopup';
 import Login from './Login';
 import Register from './Register';
+import ProtectedRoute from './ProtectedRoute';
+import * as auth from '../utils/auth.js';
 
 function App() {
   const [isEditProfilePopupOpen, setEditProfilePopupOpen] = useState(false);
@@ -115,6 +117,13 @@ function App() {
       .catch(console.error);
   }
 
+  function handleUserReg(email, password) {      
+    auth.register(email, password).then((res) => {
+      console.log(res);
+      })
+      .catch(console.error);
+  }
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="root">
@@ -122,9 +131,9 @@ function App() {
           <div className="wrap">
             <Header loggedIn={isLoggedIn} />
             <Routes>
-              <Route path="/signup" element={<Register />} />
-              <Route path="/signin" element={<Login />} />
-              <Route path="/" element={<Main
+              <Route path="/signup" element={<Register onAddUser={handleUserReg}/>} />
+              {/* <Route path="/signin" element={<Login />} /> */}
+              <Route path="/" element={ <ProtectedRoute isLoggedIn={isLoggedIn} element={ <Main
                 onEditProfile={handleEditProfileClick}
                 onAddPlace={handleAddPlaceClick}
                 onEditAvatar={handleEditAvatarClick}
@@ -132,7 +141,7 @@ function App() {
                 onCardLike={handleCardLike}
                 onCardDelete={handleCardDelete}
                 cards={cards}
-              />} />              
+              />} />} />            
             </Routes>
             <Footer />
           </div>

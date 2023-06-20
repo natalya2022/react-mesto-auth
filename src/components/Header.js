@@ -5,7 +5,7 @@ import { useLocation, Link } from 'react-router-dom';
 const Header = ({loggedIn}) => {
 
    const location = useLocation();
-   console.log(location);
+   //console.log(location);
 
   return (
     <header className="header">
