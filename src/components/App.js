@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {BrowserRouter, Route, Routes, Navigate, useNavigate} from 'react-router-dom';
+import { BrowserRouter, Route, Routes, Navigate, useNavigate } from 'react-router-dom';
 import './../index.css';
 import Footer from './Footer';
 import Header from './Header';
@@ -24,7 +24,7 @@ function App() {
   const [currentUser, setCurrentUser] = useState({});
   const [cards, setCards] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-
+  const navigate = useNavigate();
 
   useEffect(() => {
     api
@@ -117,9 +117,22 @@ function App() {
       .catch(console.error);
   }
 
-  function handleNewUserReg(email, password) {      
-    auth.register(email, password).then((res) => {
-      console.log(res);
+  function handleNewUserReg(email, password) {
+    auth
+      .register(email, password)
+      .then((res) => {
+        navigate("/signin");
+      })
+      .catch(console.error);
+  }
+
+  function handleUserLogin(email, password) {
+    auth
+      .authorize(email, password)
+      .then((res) => {
+        localStorage.setItem('token', res.token);
+        setIsLoggedIn(true);
+        navigate("/");
       })
       .catch(console.error);
   }
@@ -131,17 +144,27 @@ function App() {
           <div className="wrap">
             <Header loggedIn={isLoggedIn} />
             <Routes>
-              <Route path="/signup" element={<Register onAddUser={handleNewUserReg}/>} />
-              {/* <Route path="/signin" element={<Login />} /> */}
-              <Route path="/" element={ <ProtectedRoute isLoggedIn={isLoggedIn} element={ <Main
-                onEditProfile={handleEditProfileClick}
-                onAddPlace={handleAddPlaceClick}
-                onEditAvatar={handleEditAvatarClick}
-                onImagePopup={handleImagePopupClick}
-                onCardLike={handleCardLike}
-                onCardDelete={handleCardDelete}
-                cards={cards}
-              />} />} />            
+              <Route path="/signup" element={<Register onAddUser={handleNewUserReg} />} />
+              <Route path="/signin" element={<Login onUserLogin={handleUserLogin} />} />
+              <Route
+                path="/"
+                element={
+                  <ProtectedRoute
+                    isLoggedIn={isLoggedIn}
+                    element={
+                      <Main
+                        onEditProfile={handleEditProfileClick}
+                        onAddPlace={handleAddPlaceClick}
+                        onEditAvatar={handleEditAvatarClick}
+                        onImagePopup={handleImagePopupClick}
+                        onCardLike={handleCardLike}
+                        onCardDelete={handleCardDelete}
+                        cards={cards}
+                      />
+                    }
+                  />
+                }
+              />
             </Routes>
             <Footer />
           </div>

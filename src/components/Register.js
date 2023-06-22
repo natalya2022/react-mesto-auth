@@ -19,9 +19,6 @@ const Register = ({ onAddUser }) => {
     console.log(formValue.email, formValue.password);
   };
 
-
-  //const [errMessage, setErrMessage] = useState('');
-
   const handleSubmit = (e) => {
     e.preventDefault();    
     onAddUser(formValue.email, formValue.password);
