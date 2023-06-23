@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Route, Routes, useNavigate } from 'react-router-dom';
+import { Route, Routes, useNavigate, Navigate } from 'react-router-dom';
 import './../index.css';
 import Footer from './Footer';
 import Header from './Header';
@@ -215,6 +215,7 @@ function App() {
                   />
                 }
               />
+              <Route path="*" element={<Navigate to="/signin" replace />} />
             </Routes>
             <Footer />
           </div>
