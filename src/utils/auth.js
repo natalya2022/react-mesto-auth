@@ -31,16 +31,6 @@ export const authorize = (email, password) => {
   .then(res => checkRequest(res));        
 };
 
-//   .then((response => response.json()))
-//   .then((data) => {
-//     if (data.user){
-//       localStorage.setItem('jwt', data.jwt);
-//       return data;
-//     }
-//   })
-//   .catch(err => console.log(err))
-// };
-
 export const checkToken = (token) => {
   return fetch(`${BASE_URL}/users/me`, {
     method: 'GET',
@@ -53,6 +43,3 @@ export const checkToken = (token) => {
   .then(res => checkRequest(res));        
 };
 
-//   .then(res => res.json())
-//   .then(data => data)
-// }

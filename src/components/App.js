@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter, Route, Routes, Navigate, useNavigate } from 'react-router-dom';
+import { Route, Routes, useNavigate } from 'react-router-dom';
 import './../index.css';
 import Footer from './Footer';
 import Header from './Header';
@@ -13,6 +13,7 @@ import AddPlacePopup from './AddPlacePopup';
 import Login from './Login';
 import Register from './Register';
 import ProtectedRoute from './ProtectedRoute';
+import InfoTooltip from './InfoTooltip';
 import * as auth from '../utils/auth.js';
 
 function App() {
@@ -24,6 +25,9 @@ function App() {
   const [currentUser, setCurrentUser] = useState({});
   const [cards, setCards] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isUserEmail, setIsUserEmail] = useState('');
+  const [isСheckRegister, setIsCheckRegister] = useState(false);
+  const [isInfoTooltipOpen, setIsInfoTooltipOpen] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -66,6 +70,7 @@ function App() {
     setEditProfilePopupOpen(false);
     setAddPlacePopupOpen(false);
     setImagePopupOpen(false);
+    setIsInfoTooltipOpen(false);
   };
 
   function handleCardLike(card) {
@@ -120,21 +125,62 @@ function App() {
   function handleNewUserReg(email, password) {
     auth
       .register(email, password)
-      .then((res) => {
-        navigate("/signin");
+      .then(res => {
+        handleInfoTooltipOpen();
+        setIsCheckRegister(true);
+        navigate('/signin');
       })
-      .catch(console.error);
+      .catch(err => {
+        console.error(err);
+        setIsCheckRegister(false);
+        handleInfoTooltipOpen();
+      });
   }
 
   function handleUserLogin(email, password) {
     auth
       .authorize(email, password)
-      .then((res) => {
+      .then(res => {
         localStorage.setItem('token', res.token);
         setIsLoggedIn(true);
-        navigate("/");
+        setIsUserEmail(email);
+        navigate('/');
       })
       .catch(console.error);
+  }
+
+  useEffect(() => {
+    handleCheckToken();
+    // eslint-disable-next-line
+  }, []);
+
+  function handleCheckToken() {
+    if (!localStorage.getItem('token')) {
+      return;
+    }
+    const token = localStorage.getItem('token');
+    auth
+      .checkToken(token)
+      .then(res => {
+        setIsLoggedIn(true);
+        setIsUserEmail(res.data.email);
+        navigate('/');
+      })
+      .catch(err => {
+        console.error(err);
+        setIsLoggedIn(false);
+      });
+  }
+
+  function userLogOut() {
+    setIsUserEmail('');
+    localStorage.removeItem('token');
+    navigate('/signin');
+    setIsLoggedIn(false);
+  }
+
+  function handleInfoTooltipOpen() {
+    setIsInfoTooltipOpen(true);
   }
 
   return (
@@ -142,7 +188,7 @@ function App() {
       <div className="root">
         <div className="page">
           <div className="wrap">
-            <Header loggedIn={isLoggedIn} />
+            <Header loggedIn={isLoggedIn} userEmail={isUserEmail} onLogOut={userLogOut} />
             <Routes>
               <Route path="/signup" element={<Register onAddUser={handleNewUserReg} />} />
               <Route path="/signin" element={<Login onUserLogin={handleUserLogin} />} />
@@ -150,7 +196,7 @@ function App() {
                 path="/"
                 element={
                   <ProtectedRoute
-                    isLoggedIn={isLoggedIn}
+                    loggedIn={isLoggedIn}
                     element={
                       <Main
                         onEditProfile={handleEditProfileClick}
@@ -189,6 +235,7 @@ function App() {
             isOpen={isImagePopupOpen}
             onClose={closeAllPopups}
           />
+          <InfoTooltip onClose={closeAllPopups} checkRegister={isСheckRegister} isOpen={isInfoTooltipOpen} />
         </div>
       </div>
     </CurrentUserContext.Provider>
