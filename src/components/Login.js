@@ -13,8 +13,7 @@ const Login = ({ onUserLogin }) => {
     setFormValue({
       ...formValue,
       [name]: value
-    });
-    console.log(formValue.email, formValue.password);
+    });    
   };
 
   const handleSubmit = (e) => {

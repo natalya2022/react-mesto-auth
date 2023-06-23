@@ -1,7 +1,6 @@
 import React from 'react';
 
-const InputUserData = ({ formValue, handleChange }) => {
-  console.log(formValue, handleChange);
+const InputUserData = ({ formValue, handleChange }) => {  
 
   return (
     <>

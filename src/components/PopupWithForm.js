@@ -11,8 +11,8 @@ const PopupWithForm = ({
   ...props
 }) => {
   return (
-    <div className={`popup popup_type_${name} ${isOpen ? 'popup_opened' : ''}`}>
-      <div className="popup__container">
+    <div className={`popup popup_type_${name} ${isOpen ? 'popup_opened' : ''}`} onClick={onClose}>
+      <div className="popup__container" onClick={(e) => e.stopPropagation()}>
         <h2 className="popup__title">{title}</h2>
         <button className="popup__close" type="button" aria-label="Закрыть" onClick={onClose} />
         <form className="popup__edit" name={name} onSubmit={onSubmit}>

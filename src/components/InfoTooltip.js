@@ -5,9 +5,8 @@ import regtrue from './../images/regtrue.svg';
 
 const InfoTooltip = ({ onClose, checkRegister, isOpen }) => {
   return (
-    <div className={`popup ${isOpen ? 'popup_opened' : ''}`}>
-      {/* <div className={`popup popup_type_register popup_opened`}> */}
-      <div className="popup__container popup_type_register">
+    <div className={`popup ${isOpen ? 'popup_opened' : ''}`} onClick={onClose}>      
+      <div className="popup__container popup_type_register" onClick={(e) => e.stopPropagation()}>
         <button className="popup__close" type="button" aria-label="Закрыть" onClick={onClose} />
         {checkRegister ? (
           <>
