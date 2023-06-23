@@ -146,7 +146,11 @@ function App() {
         setIsUserEmail(email);
         navigate('/');
       })
-      .catch(console.error);
+      .catch(err => {
+        console.error(err);
+        setIsCheckRegister(false);
+        handleInfoTooltipOpen();
+      });
   }
 
   useEffect(() => {
@@ -235,7 +239,11 @@ function App() {
             isOpen={isImagePopupOpen}
             onClose={closeAllPopups}
           />
-          <InfoTooltip onClose={closeAllPopups} checkRegister={isСheckRegister} isOpen={isInfoTooltipOpen} />
+          <InfoTooltip
+            onClose={closeAllPopups}
+            checkRegister={isСheckRegister}
+            isOpen={isInfoTooltipOpen}
+          />
         </div>
       </div>
     </CurrentUserContext.Provider>
