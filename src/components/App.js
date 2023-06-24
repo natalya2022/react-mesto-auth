@@ -15,6 +15,8 @@ import Register from './Register';
 import ProtectedRoute from './ProtectedRoute';
 import InfoTooltip from './InfoTooltip';
 import * as auth from '../utils/auth.js';
+import regfalse from './../images/regfalse.svg';
+import regtrue from './../images/regtrue.svg';
 
 function App() {
   const [isEditProfilePopupOpen, setEditProfilePopupOpen] = useState(false);
@@ -26,27 +28,45 @@ function App() {
   const [cards, setCards] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isUserEmail, setIsUserEmail] = useState('');
-  const [isСheckRegister, setIsCheckRegister] = useState(false);
+  // const [isСheckRegister, setIsCheckRegister] = useState(false);
   const [isInfoTooltipOpen, setIsInfoTooltipOpen] = useState(false);
+  const [toooltipMessage, setToooltipMessage] = useState({ link: '', text: '' });  
   const navigate = useNavigate();
 
+  const toolMessage = { ok: 0, err: 1};
+  const toolMessages = [
+    {link: regtrue, text: 'Вы успешно зарегистрировались!'},
+    {link: regfalse, text: 'Что-то пошло не так! Попробуйте еще раз.'},
+  ];
+
+  // const [toooltipMessage, setToooltipMessage] = useState(toolMessage.err);
+
+  
   useEffect(() => {
-    api
-      .getUserInfo()
-      .then(user => {
-        setCurrentUser(user);
-      })
-      .catch(console.error);
-  }, []);
+    if (isLoggedIn) {
+      api
+        .getUserInfo()
+        .then(user => {
+          setCurrentUser(user);
+        })
+        .catch(console.error);
+    } else {
+      setCurrentUser({});
+    }
+  }, [isLoggedIn]);
 
   useEffect(() => {
-    api
-      .getInitialCards()
-      .then(cards => {
-        setCards(cards);
-      })
-      .catch(console.error);
-  }, []);
+    if (isLoggedIn) {
+      api
+        .getInitialCards()
+        .then(cards => {
+          setCards(cards);
+        })
+        .catch(console.error);
+    } else {
+      setCards([]);
+    }
+  }, [isLoggedIn]);
 
   const handleEditAvatarClick = evt => {
     setEditAvatarPopupOpen(true);
@@ -127,12 +147,17 @@ function App() {
       .register(email, password)
       .then(res => {
         handleInfoTooltipOpen();
-        setIsCheckRegister(true);
+        // setIsCheckRegister(true);
+        // setToooltipMessage({link: regtrue, text: 'Вы успешно зарегистрировались!'});
+        setToooltipMessage(toolMessages[toolMessage.ok]);
         navigate('/signin');
       })
       .catch(err => {
         console.error(err);
-        setIsCheckRegister(false);
+        // setIsCheckRegister(false);
+        // setToooltipMessage({link: regfalse, text: `Что-то пошло не так!
+        // Попробуйте еще раз.`});
+        setToooltipMessage(toolMessages[toolMessage.err]);
         handleInfoTooltipOpen();
       });
   }
@@ -148,7 +173,9 @@ function App() {
       })
       .catch(err => {
         console.error(err);
-        setIsCheckRegister(false);
+        // setToooltipMessage({link: regfalse, text: `Что-то пошло не так!
+        // Попробуйте еще раз.`});
+        setToooltipMessage(toolMessages[toolMessage.err]);
         handleInfoTooltipOpen();
       });
   }
@@ -181,6 +208,8 @@ function App() {
     localStorage.removeItem('token');
     navigate('/signin');
     setIsLoggedIn(false);
+    setCurrentUser({});
+    setCards([]);
   }
 
   function handleInfoTooltipOpen() {
@@ -242,7 +271,8 @@ function App() {
           />
           <InfoTooltip
             onClose={closeAllPopups}
-            checkRegister={isСheckRegister}
+            // checkRegister={isСheckRegister}
+            toooltipMessage={toooltipMessage}
             isOpen={isInfoTooltipOpen}
           />
         </div>

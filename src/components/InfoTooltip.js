@@ -1,14 +1,14 @@
 import React from 'react';
-import regfalse from './../images/regfalse.svg';
-import regtrue from './../images/regtrue.svg';
+// import regfalse from './../images/regfalse.svg';
+// import regtrue from './../images/regtrue.svg';
 
 
-const InfoTooltip = ({ onClose, checkRegister, isOpen }) => {
+const InfoTooltip = ({ onClose, toooltipMessage, isOpen }) => {
   return (
     <div className={`popup ${isOpen ? 'popup_opened' : ''}`} onClick={onClose}>      
       <div className="popup__container popup_type_register" onClick={(e) => e.stopPropagation()}>
         <button className="popup__close" type="button" aria-label="Закрыть" onClick={onClose} />
-        {checkRegister ? (
+        {/* {checkRegister ? (
           <>
             <img className="popup__image" src={regtrue} alt="" />
             <h2 className="popup__tooltip">Вы успешно зарегистрировались!</h2>
@@ -19,7 +19,9 @@ const InfoTooltip = ({ onClose, checkRegister, isOpen }) => {
             <h2 className="popup__tooltip">Что-то пошло не так!<br/>
             Попробуйте еще раз.</h2>
           </>
-        )}
+        )} */}
+        <img className="popup__image" src={toooltipMessage.link} alt="" />
+        <h2 className="popup__tooltip">{toooltipMessage.text}</h2>
       </div>
     </div>
   );
