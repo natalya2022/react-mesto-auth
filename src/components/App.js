@@ -27,8 +27,7 @@ function App() {
   const [currentUser, setCurrentUser] = useState({});
   const [cards, setCards] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [isUserEmail, setIsUserEmail] = useState('');
-  // const [isСheckRegister, setIsCheckRegister] = useState(false);
+  const [isUserEmail, setIsUserEmail] = useState('');  
   const [isInfoTooltipOpen, setIsInfoTooltipOpen] = useState(false);
   const [toooltipMessage, setToooltipMessage] = useState({ link: '', text: '' });  
   const navigate = useNavigate();
@@ -38,8 +37,6 @@ function App() {
     {link: regtrue, text: 'Вы успешно зарегистрировались!'},
     {link: regfalse, text: 'Что-то пошло не так! Попробуйте еще раз.'},
   ];
-
-  // const [toooltipMessage, setToooltipMessage] = useState(toolMessage.err);
 
   
   useEffect(() => {
@@ -146,17 +143,12 @@ function App() {
     auth
       .register(email, password)
       .then(res => {
-        handleInfoTooltipOpen();
-        // setIsCheckRegister(true);
-        // setToooltipMessage({link: regtrue, text: 'Вы успешно зарегистрировались!'});
+        handleInfoTooltipOpen();        
         setToooltipMessage(toolMessages[toolMessage.ok]);
         navigate('/signin');
       })
       .catch(err => {
-        console.error(err);
-        // setIsCheckRegister(false);
-        // setToooltipMessage({link: regfalse, text: `Что-то пошло не так!
-        // Попробуйте еще раз.`});
+        console.error(err);        
         setToooltipMessage(toolMessages[toolMessage.err]);
         handleInfoTooltipOpen();
       });
@@ -172,9 +164,7 @@ function App() {
         navigate('/');
       })
       .catch(err => {
-        console.error(err);
-        // setToooltipMessage({link: regfalse, text: `Что-то пошло не так!
-        // Попробуйте еще раз.`});
+        console.error(err);        
         setToooltipMessage(toolMessages[toolMessage.err]);
         handleInfoTooltipOpen();
       });
@@ -270,8 +260,7 @@ function App() {
             onClose={closeAllPopups}
           />
           <InfoTooltip
-            onClose={closeAllPopups}
-            // checkRegister={isСheckRegister}
+            onClose={closeAllPopups}           
             toooltipMessage={toooltipMessage}
             isOpen={isInfoTooltipOpen}
           />
